@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 const FeatureList = [
   {
     title: 'Modular', // 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/undraw_modular.svg').default,
     description: (
       /* <>
         Docusaurus was designed from the ground up to be easily installed and
@@ -20,7 +20,7 @@ const FeatureList = [
   },
   {
     title: 'Seamless', // 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/undraw_seamless.svg').default,
     description: (
       /* <>
         Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
@@ -35,7 +35,7 @@ const FeatureList = [
   },
   {
     title: 'Exemplative', // 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img/undraw_exemplative.svg').default,
     description: (
       /* <>
         Extend or customize your website layout by reusing React. Docusaurus can
@@ -49,7 +49,7 @@ const FeatureList = [
   },
   {
     title: 'Evaluative', // 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img/undraw_evaluative.svg').default,
     description: (
       /* <>
         Extend or customize your website layout by reusing React. Docusaurus can
