@@ -16,6 +16,4 @@ A screen similar to the one below will pop up, rendering the environment and the
 
 The agent, represented by a red arrow, can be operated by typing the integer corresponding to the desired action next to the prompt `action: ` generated on the command line. For instance, `action: 2`, corresponding to `approach_oak_log`, would make the agent approach the nearest oak log.
 
-![Oak log](img/oak_log.png)
-
 **Note**: The `--novelty none` flag in the command above means that we are trying out the environment without any novelty being introduced to it. Feel free to experiment by modifying this to any novelty listed when running the script with the `--help` flag. On the other hand, the `--env sa` represents the choice of the single agent wrapper. Throughout the [Customizing Environments](../category/customizing-environments) part of the tutorial, this will be the environment we default to; for a deeper dive into agent wrappers, see the tutorial on [Combining Planning & RL Agents](../agent/combining).
