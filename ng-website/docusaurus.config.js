@@ -13,15 +13,15 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://clarech712.github.io',
+  url: 'https://novelgym.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/ng-website/',
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'clarech712', // Usually your GitHub org/user name.
-  projectName: 'ng-website', // Usually your repo name.
+  organizationName: 'novelgym', // Usually your GitHub org/user name.
+  projectName: 'novelgym.github.io', // Usually your repo name.
   trailingSlash: false,
   deploymentBranch: 'gh-pages',
 
