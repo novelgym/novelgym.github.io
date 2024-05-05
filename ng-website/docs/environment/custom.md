@@ -9,6 +9,8 @@ In the previous part of the tutorial, [Keyboard Demo](demo), we ran the script [
 In this part of the tutorial, we examine those keys of the config file that can be modified towards creating a simple custom environment without having to write any additional code. Examples are provided. Later parts of the tutorial cover the creation of entities, such as objects and actions in [Examples of Objects & Actions](objectsactions), and spaces, namely in [Defining Spaces](../agent/spaces), from scratch. The section [Implementing Novelties](novelty) includes how anything can become a novelty to the agent.
 
 
+
+
 ## Layout
 
 `map_size`

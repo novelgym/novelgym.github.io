@@ -18,13 +18,11 @@ pip install .
 
 ### Install NovelGym
 
-Next, clone this repository and install dependencies using `pip`, keeping the same virtual environment activated (if applicable).
+Next, clone this repository, keeping the same virtual environment activated (if applicable).
 
 ```
 cd ..
 git clone https://github.com/tufts-ai-robotics-group/NovelGym.git
-cd NovelGym
-pip install .
 ```
 
 ### Compile MetricFF
@@ -35,5 +33,7 @@ Finally, install your C compiler by going to `planners/Metric-FF-v2.1`, and runn
 cd planners/Metric-FF-v2.1
 make
 ```
+
+Note that [Metric-FF](https://fai.cs.uni-saarland.de/hoffmann/metric-ff.html) can also be downloaded separately, directly from source.
 
 
