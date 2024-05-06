@@ -4,12 +4,21 @@ sidebar_position: 2
 
 # Creating Your Environment
 
-In the previous part of the tutorial, [Keyboard Demo](demo), we ran the script [manual_novelty_test1.py](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/manual_novelty_test1.py) to try out the keyboard agent for the NovelGym environment. Like [manual_sanity_checker.py](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/manual_sanity_checker.py), the script designed for loading a trained model and seeing what action the model selects, and [train.py](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/train.py), the script used for training, [manual_novelty_test1.py](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/manual_novelty_test1.py) creates the environment from the [polycraft_gym_main.yaml](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/config/polycraft_gym_main.yaml) config file.
+In this section, we look at the [polycraft_gym_main.yaml](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/config/polycraft_gym_main.yaml) config used in the following three files:
 
-In this part of the tutorial, we examine those keys of the config file that can be modified towards creating a simple custom environment without having to write any additional code. Examples are provided. Later parts of the tutorial cover the creation of entities, such as objects and actions in [Examples of Objects & Actions](objectsactions), and spaces, namely in [Defining Spaces](../agent/spaces), from scratch. The section [Implementing Novelties](novelty) includes how anything can become a novelty to the agent.
++ [manual_novelty_test1.py](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/manual_novelty_test1.py) – keyboard agent with rendering,
 
++ [manual_sanity_checker.py](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/manual_sanity_checker.py) – loads trained model and sees what action it selects,
 
++ [train.py](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/train.py) – used for training.
 
+Specifically, we explain how the environment can be modified using the config only, i.e. without having to write any code. Later sections cover what can be implemented from scratch:
+
++ entities such as objects and actions (see [Examples of Objects & Actions](objectsactions)),
+
++ spaces (see [Defining Spaces](../agent/spaces)).
+
+For details on how anything can become a novelty to the agent, see [Implementing Novelties](novelty).
 
 ## Layout
 
@@ -70,15 +79,31 @@ objects:
 
 `entities`
 
-The `agent` key takes the source of behaviour for the agent: `KeyboardAgent`, `RandomAgent`, or a more complex setting for an RL agent such as in [config/polycraft_gym_rl.yaml](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/config/polycraft_gym_rl.yaml). See [Combining Planning & RL Agents](../agent/combining) for more detail on integrating intelligent agents.
+There are several subkeys to this key:
 
-The `entity` key represents the source code of the agent and the `id` is a unique identifier of an entity and is used in actions, such as `approach_entity_<id>`.
++ `agent` – source of behaviour for the agent:
 
-The `action_set` key attributes to the entity one of the actions sets specified under the key `action_sets`. Multiple entities can share the same action set.
+  + `KeyboardAgent`,
+    
+  + `RandomAgent`,
+  
+  + a more complex setting for an RL agent such as in [config/polycraft_gym_rl.yaml](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/config/polycraft_gym_rl.yaml),
+  
+  + (see [Combining Planning & RL Agents](../agent/combining) for more detail on integrating intelligent agents),
 
-The `room` key stands for the room the entity is placed in at the start of the game. Analogously, the `inventory` key specifies what the entity has in their inventory at the start of the game, and the inventory is variable throughout the game.
++ `entity` – source code of the agent,
 
-In the case of intelligent agents, `max_step_cost` specifies the maximum cost that can be incurred on the agent at any step.
++ `id` – unique identifier of an entity, used in actions such as `approach_entity_<id>`,
+
++ `action_set` – attributes to the entity one of the actions sets (multiple entities can share the same action set),
+
++ `action_sets` – action sets available,
+
++ `room` – the room the entity is placed in at the start of the game,
+
++ `inventory` – what the entity has in their inventory at the start of the game (the inventory is variable throughout the game),
+
++ `max_step_cost` – the maximum cost that can be incurred on an intelligent (non-keyboard, non-random) agent at any step.
 
 ```yaml
 entities:
@@ -121,12 +146,31 @@ trades:
 
 List of ids of those entities that are to automatically collect all objects around them at each time step.
 
+```yaml
+auto_pickup_agents:
+- 0
+```
+
 
 ## Actions
 
 `actions`
 
-Source modules and step cost of actions possible in the environment. In the case of actions involving interactions with other agents, the `entity_id` must be provided. Compound actions include `break_<object>`, `approach_<object/entity>`, `interact_<entity>`, `select_<object>`, `craft_<object>`, `trade_<object>`. Notice `nop_placeholder`, a placeholder for a novelty action.
+Source modules and step cost of actions in the environment. In the case of actions involving interactions with other agents, the `entity_id` must be provided. Compound actions include
+
++ `break_<object>`,
+
++ `approach_<object/entity>`,
+
++ `interact_<entity>`,
+
++ `select_<object>`,
+
++ `craft_<object>`,
+
++ `trade_<object>`.
+
+Notice `nop_placeholder`, a placeholder for a novelty action.
 
 ```yaml
 actions:
@@ -185,7 +229,11 @@ All of the below keys take integer values.
 
 `sleep_time`
 
-Time delay after each environment step.
+Time delay after each environment step when training.
+
+```yaml
+sleep_time: 0
+```
 
 
 ***
@@ -194,6 +242,10 @@ Time delay after each environment step.
 
 Limit on how many steps the agent can take in attempting the goal during training.
 
+```yaml
+time_limit: 89000
+```
+
 
 ***
 
@@ -201,10 +253,18 @@ Limit on how many steps the agent can take in attempting the goal during trainin
 
 For the reproducibility of the experiment run.
 
+```yaml
+seed: 23
+```
+
 
 ***
 
 `num_episodes`
 
-Number of episodes to run.
+Number of episodes to run when training.
+
+```yaml
+num_episodes: 10
+```
 

@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Examples of Objects & Actions
 
-The implementations of the objects and actions for the base environment are in the [NovelGridWorldsV2](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2) repository, which you will have installed together with its wrapper repository [NovelGym](https://github.com/tufts-ai-robotics-group/NovelGym). In this part of the tutorial, we explore how the individual object and action classes relate to each other and how a specific object or action is implemented and integrated in the infrastructure.
+The implementations of the objects and actions for the base environment are in the [NovelGridWorldsV2](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2) repository, which you will have installed in [Installation](../install.md). In this section, we explore how the individual object and action classes relate to each other and how a specific object or action is implemented and integrated.
 
 ## Objects
 
@@ -12,23 +12,27 @@ The base class for objects and entities is the [Object](https://github.com/tufts
 
 ![Environment](img/Objects.drawio.png)
 
-The easiest way of implementing an entity that moves and has their own inventory where they can store objects is by declaring a child class of [PolycraftEntity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_entity.py). A child class of [PolycraftEntity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_entity.py) will generally need little method overriding since the entity's action set is defined in the config file, and the inventory logic is implemented in the base [Entity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/entity.py) class.
+**To implement an entity** that moves and has their own inventory, declare a child class of [PolycraftEntity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_entity.py). This child class might not even need any method overriding: the entity's action set is defined in the config file, and the inventory logic is implemented in the [Entity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/entity.py) class.
 
-To implement an object that may or may not be breakable, collectable, or placeable, declaring a child class of [PolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_obj.py) is the way to go. The child class will generally override one or more of the following methods of the [Object](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/object.py) class:
+**To implement an object** that may or may not be breakable, collectable, or placeable, declare a child class of [PolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_obj.py). The child class will generally override one or more of the following methods of the [Object](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/object.py) class:
 
-+ the static method `placement_reqs`, which specifies whether an object can be placed in the environment by the agent, set to `False` by default,
++ the static method `placement_reqs` – specifies whether an object can be placed in the environment by the agent (set to `False` by default),
 
-+ `acted_upon`, which, for different actions gives the response to these actions, otherwise nothing happens,
++ `acted_upon` – for different actions gives the response to these actions (otherwise nothing happens),
 
-+ `get_img`, which returns the image to be rendered in the place of the object.
++ `get_img` – returns the image to be rendered in the place of the object.
 
-The implemented object class can go in any location that can be referenced in the config file, but the locations consistent with the infrastructure setup would be the [ngw_extensions/objects](https://github.com/tufts-ai-robotics-group/NovelGym/tree/main/ngw_extensions/objects) folder or, if the object is part of a novelty, in the [novelties/evaluation1](https://github.com/tufts-ai-robotics-group/NovelGym/tree/main/novelties/evaluation1) folder.
+The implemented object class can go in any location that can be referenced in the config file. The locations consistent with the current setup are the [ngw_extensions/objects](https://github.com/tufts-ai-robotics-group/NovelGym/tree/main/ngw_extensions/objects) folder or, if the object is part of a novelty, the [novelties/evaluation1](https://github.com/tufts-ai-robotics-group/NovelGym/tree/main/novelties/evaluation1) folder.
 
-We demonstrate the construction of one entity and two objects, one of which has an inventory itself. This is to showcase the flexibility of the infrastructure.
+We demonstrate the construction of one entity and two objects, one of which has an inventory itself.
 
 ### `OakLog`
 
-As a child of the [BreakablePolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/breakable_polycraft_obj.py) class, [OakLog](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/easy_oak_log.py) can be broken, i.e. upon being acted on with the `break` action, it changes its state to `floating` and can be collected using the `collect` action. As a child of the [PlacablePolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/placable_polycraft_obj.py), it can be placed in the environment by the agent from its inventory. This already almost fully captures the expected behaviour of [OakLog](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/easy_oak_log.py). All we add is that if an instance of [OakLog](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/easy_oak_log.py) is collected by the agent while the agent is holding a `tree_tap`, `rubber` is added to the agent's inventory.
++ As a child of the [BreakablePolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/breakable_polycraft_obj.py) class, [OakLog](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/easy_oak_log.py) can be broken – when acted on with the `break` action, it changes its state to `floating` and can be collected using the `collect` action,
+
++ as a child of the [PlacablePolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/placable_polycraft_obj.py) class, it can be placed in the environment by the agent from its inventory,
+
++ if collected by an agent holding a `tree_tap`, `rubber` is added to the agent's inventory.
 
 <details>
 <summary>`easy_oak_log.py`</summary>
@@ -44,7 +48,15 @@ class OakLog(BreakablePolycraftObject):
 
 ### `Safe`
 
-As a child of the [UnbreakablePolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/unbreakable_polycraft_obj.py) class, [Safe](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/safe.py) cannot be broken, i.e. upon being acted on with the `break` action, it does not change state. Unlike most other objects implemented in the infrastructure, [Safe](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/safe.py) has its own inventory. Initially, it is locked and nothing can be collected from it. It can be unlocked when acted upon with the `use` action, provided that the agent has a `blue_key` in its inventory. Once unlocked and acted upon with the `collect` action, its inventory is merged with that of the agent, meaning that all the contents of the inventory of [Safe](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/safe.py) are transferred to the inventory of the agent.
++ As a child of the [UnbreakablePolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/unbreakable_polycraft_obj.py) class, [Safe](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/safe.py) cannot be broken – when acted on with the `break` action, it does not change state,
+
++ [Safe](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/safe.py) has its own inventory:
+
+  + initially, the [Safe](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/safe.py) is locked and nothing can be collected from it,
+  
+  + it can be unlocked when acted upon with the `use` action, provided that the agent has a `blue_key` in its inventory,
+  
+  + once unlocked and acted upon with the `collect` action, the [Safe](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/safe.py) inventory is merged with that of the agent (all the contents of the inventory of [Safe](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/safe.py) are transferred to the inventory of the agent).
 
 <details>
 <summary>`safe.py`</summary>
@@ -79,7 +91,11 @@ class Safe(UnbreakablePolycraftObject):
 
 ### `EntityTrader`
 
-As a child of the [PolycraftEntity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_entity.py) class, [EntityTrader](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/entity_trader.py) has the `print_agent_status`, which allows the printing of its inventory. As a child of the [Entity] class, it has the capacity to perform actions and to add objects to its inventory. Since this fully characterises the expected behaviour of [EntityTrader](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/entity_trader.py), the class requires no more implementation.
++ As a child of the [PolycraftEntity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_entity.py) class, [EntityTrader](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/entity_trader.py) has the `print_agent_status`, which allows the printing of its inventory,
+
++ as a child of the [Entity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/entity.py) class, it has the capacity to perform actions and to add objects to its inventory,
+
++ since this fully characterises the expected behaviour of [EntityTrader](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/entity_trader.py), the class requires no more implementation.
 
 <details>
 <summary>`entity_trader.py`</summary>
@@ -91,17 +107,21 @@ class EntityTrader(PolycraftEntity):
 
 ## Actions
 
-The base class for actions is the [Action](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/actions/action.py) class. Almost all other actions implemented in the infrastructure are direct children of this class. Any such child classes will generally override the two following methods of the [Action](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/actions/action.py) class:
+The base class for actions is the [Action](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/actions/action.py) class. Most other actions implemented in the infrastructure are direct children of this class. Any such child classes will generally override the two following methods:
 
-+ `check_precondition`, which checks whether the preconditions for the action are met,
++ `check_precondition` – checks whether the preconditions for the action are met,
 
-+ `do_action`, which executes the action and causes the desired effects.
++ `do_action` – executes the action and causes the desired effects.
 
-The implemented object class can go in any location that can be referenced in the config file, but the locations consistent with the infrastructure setup would be the [ngw_extensions](https://github.com/tufts-ai-robotics-group/NovelGym/tree/main/ngw_extensions) folder or, if the object is part of a novelty, in the [novelties/evaluation1](https://github.com/tufts-ai-robotics-group/NovelGym/tree/main/novelties/evaluation1) folder.
+The implemented object class can go in any location that can be referenced in the config file. The locations consistent with the infrastructure setup are the [ngw_extensions](https://github.com/tufts-ai-robotics-group/NovelGym/tree/main/ngw_extensions) folder or, if the object is part of a novelty, the [novelties/evaluation1](https://github.com/tufts-ai-robotics-group/NovelGym/tree/main/novelties/evaluation1) folder.
 
 ### `SmoothMove`
 
-An example of an action class with a relatively straightforward precondition and effect is [SmoothMove](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/actions/smoothmove.py), which can be used to back up the actions `move_forward`, `move_backward`, `move_left`, and `move_right`. Note that although the implementation of even an action as simple as [SmoothMove](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/actions/smoothmove.py) is rather verbose, it can be translated into plain English as, "Check if the agent can make this move, and once it does, have it pick up whatever it finds in the location it moves to."
+[SmoothMove](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/actions/smoothmove.py) is an action class with a relatively straightforward precondition and effect,
+
++ used to back up the actions `move_forward`, `move_backward`, `move_left`, and `move_right`,
+
++ **note**: although the implementation of such a simple action is verbose, it can be translated into plain English as, "Check if the agent can make this move, and once it does, have it pick up whatever it finds in the location it moves to."
 
 <details>
 <summary>`smoothmove.py`</summary>
@@ -218,13 +238,15 @@ class SmoothMove(Action):
 
 ### `Craft`
 
-An example of a class with a slightly more complex precondition and effect is [Craft](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/actions/craft.py), which allows the agent to use objects from its inventory to generate new objects. The points to note about this class and the action it represents are the following:
+[Craft](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/actions/craft.py) is a class with a slightly more complex precondition and effect,
 
-+ the class uses the helper class `RecipeSet` to represent the set of recipes available to the agent during the game,
++ allows the agent to use objects from its inventory to generate new objects,
 
-+ the class doubles up as a representation of the `trade` action,
++ uses the helper class `RecipeSet` to represent the set of recipes available to the agent,
 
-+ the action has the capacity of ending the game.
++ also used for the `trade` action,
+
++ has the capacity of ending the game.
 
 <details>
 <summary>`craft.py`</summary>
@@ -349,7 +371,11 @@ class Craft(Action):
 
 ### `Interact`
 
-An example of an action whose effects may go beyond what is defined in the `do_action` method is the [Interact](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/actions/interact.py) class. The `check_precondition` method verifies that the entity in front of the agent matches the id provided, and the `do_action` method calls the `acted_upon` method of the entity being interacted with. This can have any effect as defined in the `acted_upon` method of this entity.
+[Interact](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/actions/interact.py) is an example of an action that can have effects defined elsewhere,
+
++ the `check_precondition` method verifies that the entity in front of the agent matches the id provided,
+
++ the `do_action` method calls the `acted_upon` method of the entity being interacted with (this can have any effect as defined in the `acted_upon` method of this entity).
 
 <details>
 <summary>`interact.py`</summary>

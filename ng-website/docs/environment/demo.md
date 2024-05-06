@@ -14,7 +14,7 @@ A window like the one below will pop up, rendering the environment and the agent
 
 ![Environment](img/environment.gif)
 
-The red arrow is the agent. You can control it by typing the integer corresponding to the desired action next to the prompt `action: ` on the command line. For instance, `action: 2`, which corresponds to `approach_oak_log`, will make the agent move towards the closest oak log.
+The red arrow is the agent. You can control it by typing the integer corresponding to the desired action next to the prompt `action: `. For instance, `action: 2`, which corresponds to `approach_oak_log`, will make the agent move towards the closest oak log.
 
 **Tips**:
 
