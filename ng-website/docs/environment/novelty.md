@@ -11,7 +11,7 @@ To implement a novelty, you need a config file and optionally one or more python
 
 The novelty config file has the same layout as the config file that describes the environment, see [Creating Your Environment](custom).
 
-For any changes that appear in the environment at the first time step,  the keys are introduced directly. If any key is already in the base environment config, the contents in the new config will be appended to those in the old config.
+**For any changes that appear in the environment at the first time step**,  the keys are introduced directly. If any key is already in the base environment config, the contents in the new config will be appended to those in the old config.
 
 For an example, see the fire novelty below from [novelties/evaluation1/fire/fire_crafting_table.yaml](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/novelties/evaluation1/fire/fire_crafting_table.yaml).
 
@@ -37,7 +37,7 @@ objects:
     chunked: False
 ```
 
-For any changes introduced at a later time step, novelties are nested under the `novelties` key and a key specifying at which time step the novelty is introduced.
+**For any changes introduced at a later time step**, novelties are nested under the `novelties` key and a key specifying at which time step the novelty is introduced.
 
 For an example, see the busy traders novelty below from [novelties/evaluation1/busy_traders/busy_traders.yaml](https://github.com/tufts-ai-robotics-group/NovelGym/blob/main/novelties/evaluation1/busy_traders/busy_traders.yaml).
 

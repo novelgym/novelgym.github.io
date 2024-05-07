@@ -12,9 +12,9 @@ The base class for objects and entities is the [Object](https://github.com/tufts
 
 ![Environment](img/Objects.drawio.png)
 
-**To implement an entity** that moves and has their own inventory, declare a child class of [PolycraftEntity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_entity.py). This child class might not even need any method overriding: the entity's action set is defined in the config file, and the inventory logic is implemented in the [Entity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/entity.py) class.
+**To implement a dynamic entity** that has their own inventory, declare a child class of [PolycraftEntity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_entity.py). This child class might not even need any method overriding: the entity's action set is defined in the config file, and the inventory logic is implemented in the [Entity](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/entity.py) class.
 
-**To implement an object** that may or may not be breakable, collectable, or placeable, declare a child class of [PolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_obj.py). The child class will generally override one or more of the following methods of the [Object](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/object.py) class:
+**To implement a static entity (object)** that may or may not be breakable, collectable, or placeable, declare a child class of [PolycraftObject](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/contrib/polycraft/objects/polycraft_obj.py). The child class will generally override one or more of the following methods of the [Object](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2/blob/main/gym_novel_gridworlds2/object/object.py) class:
 
 + the static method `placement_reqs` – specifies whether an object can be placed in the environment by the agent (set to `False` by default),
 
