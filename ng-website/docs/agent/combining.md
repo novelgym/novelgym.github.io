@@ -15,3 +15,7 @@ For reward shaping, the wrapper modifies the reward function based on the domain
 ## Switching Between Planner & External Agent
 
 For RapidLearn, the fast_forward function will automatically execute the time steps for RL until no plan could be found or an action failed.
+
+## Benchmark Results
+
+![Benchmark](img/benchmark.png)
